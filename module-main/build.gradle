@@ -1,0 +1,14 @@
+plugins {
+    id 'application'
+}
+
+mainClassName = 'com.mjc.school.NewsManagementApplication'
+
+dependencies {
+    implementation project(':module-web')
+    implementation project(':module-repository')
+}
+
+run {
+    standardInput = System.in
+}
