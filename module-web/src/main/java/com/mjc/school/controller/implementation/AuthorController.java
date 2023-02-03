@@ -43,5 +43,7 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
         return authorService.deleteById(id);
     }
 
-    public AuthorDtoResponse getAuthorByNewsId(Long id) { return authorService.getAuthorByNewsId(id); }
+    public AuthorDtoResponse getAuthorByNewsId(Long id) {
+        return authorService.getAuthorByNewsId(id);
+    }
 }

@@ -1,7 +1,6 @@
 package com.mjc.school.controller.implementation;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.TagDtoRequest;
 import com.mjc.school.service.dto.TagDtoResponse;
 import com.mjc.school.service.implementation.TagService;
@@ -44,5 +43,7 @@ public class TagController implements BaseController<TagDtoRequest, TagDtoRespon
         return tagService.deleteById(id);
     }
 
-    public List<TagDtoResponse> getTagByNewsId(Long id) { return tagService.getTagsByNewsId(id); }
+    public List<TagDtoResponse> getTagByNewsId(Long id) {
+        return tagService.getTagsByNewsId(id);
+    }
 }
