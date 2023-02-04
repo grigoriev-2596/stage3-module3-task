@@ -2,11 +2,11 @@ package com.mjc.school.repository.implementation;
 
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.NewsModel;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
