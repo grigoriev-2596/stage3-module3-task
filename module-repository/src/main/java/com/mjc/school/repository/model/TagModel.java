@@ -1,6 +1,5 @@
 package com.mjc.school.repository.model;
 
-import com.mjc.school.repository.BaseEntity;
 import javax.persistence.*;
 
 import java.util.ArrayList;

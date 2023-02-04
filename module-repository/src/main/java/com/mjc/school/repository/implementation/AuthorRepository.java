@@ -27,14 +27,12 @@ public class AuthorRepository implements BaseRepository<AuthorModel, Long> {
         return Optional.ofNullable(entityManager.find(AuthorModel.class, id));
     }
 
-    @Transactional
     @Override
     public AuthorModel create(AuthorModel entity) {
         entityManager.persist(entity);
         return entity;
     }
 
-    @Transactional
     @Override
     public AuthorModel update(AuthorModel entity) {
         Optional<AuthorModel> maybeNull = readById(entity.getId());
@@ -46,7 +44,6 @@ public class AuthorRepository implements BaseRepository<AuthorModel, Long> {
         return toUpdate;
     }
 
-    @Transactional
     @Override
     public boolean deleteById(Long id) {
         Optional<AuthorModel> maybeNullAuthor = readById(id);

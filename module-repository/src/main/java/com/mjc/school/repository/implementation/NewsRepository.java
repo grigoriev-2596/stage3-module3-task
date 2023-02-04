@@ -27,14 +27,12 @@ public class NewsRepository implements BaseRepository<NewsModel, Long> {
         return Optional.ofNullable(entityManager.find(NewsModel.class, id));
     }
 
-    @Transactional
     @Override
     public NewsModel create(NewsModel entity) {
         entityManager.persist(entity);
         return entity;
     }
 
-    @Transactional
     @Override
     public NewsModel update(NewsModel entity) {
         Optional<NewsModel> maybeNull = readById(entity.getId());
@@ -50,7 +48,6 @@ public class NewsRepository implements BaseRepository<NewsModel, Long> {
         return toUpdate;
     }
 
-    @Transactional
     @Override
     public boolean deleteById(Long id) {
         return entityManager.createQuery("delete from NewsModel n where n.id=:id")

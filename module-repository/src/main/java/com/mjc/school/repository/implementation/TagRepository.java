@@ -27,14 +27,12 @@ public class TagRepository implements BaseRepository<TagModel, Long> {
         return Optional.ofNullable(entityManager.find(TagModel.class, id));
     }
 
-    @Transactional
     @Override
     public TagModel create(TagModel entity) {
         entityManager.persist(entity);
         return entity;
     }
 
-    @Transactional
     @Override
     public TagModel update(TagModel entity) {
         Optional<TagModel> maybeNullTag = readById(entity.getId());
@@ -46,7 +44,6 @@ public class TagRepository implements BaseRepository<TagModel, Long> {
         return toUpdate;
     }
 
-    @Transactional
     @Override
     public boolean deleteById(Long id) {
         return entityManager.createQuery("delete from TagModel where id=:id")
