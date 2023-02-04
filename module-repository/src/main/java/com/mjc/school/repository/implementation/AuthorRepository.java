@@ -54,7 +54,6 @@ public class AuthorRepository implements BaseRepository<AuthorModel, Long> {
         return true;
     }
 
-    @Transactional
     public AuthorModel getAuthorByNewsId(Long newsId) {
         NewsModel newsModel = entityManager.find(NewsModel.class, newsId);
         if (newsModel == null) {
