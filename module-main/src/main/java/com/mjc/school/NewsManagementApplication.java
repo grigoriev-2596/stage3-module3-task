@@ -1,7 +1,7 @@
 package com.mjc.school;
 
 
-import com.mjc.school.menu.NewsManagementMenu;
+import com.mjc.school.menu.MenuRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class NewsManagementApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(NewsManagementApplication.class, args);
-        NewsManagementMenu menu = context.getBean(NewsManagementMenu.class);
+        MenuRunner menu = context.getBean(MenuRunner.class);
         menu.setScanner(new Scanner(System.in));
         menu.runMenu();
     }

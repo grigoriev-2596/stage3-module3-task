@@ -9,7 +9,7 @@ import java.util.Scanner;
 import static java.lang.System.exit;
 
 @Component
-public class NewsManagementMenu {
+public class MenuRunner {
     private final TagMenu tagMenu;
     private final NewsMenu newsMenu;
     private final AuthorMenu authorMenu;
@@ -17,7 +17,7 @@ public class NewsManagementMenu {
     private Scanner scanner;
 
     @Autowired
-    public NewsManagementMenu(TagMenu tagMenu, NewsMenu newsMenu, AuthorMenu authorMenu) {
+    public MenuRunner(TagMenu tagMenu, NewsMenu newsMenu, AuthorMenu authorMenu) {
         this.tagMenu = tagMenu;
         this.newsMenu = newsMenu;
         this.authorMenu = authorMenu;
