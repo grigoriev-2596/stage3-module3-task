@@ -1,6 +1,7 @@
 package com.mjc.school.controller.implementation;
 
 import com.mjc.school.controller.BaseController;
+import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.implementation.NewsService;
@@ -11,10 +12,10 @@ import java.util.List;
 
 @Controller
 public class NewsController implements BaseController<NewsDtoRequest, NewsDtoResponse, Long> {
-    private final NewsService newsService;
+    private final BaseService<NewsDtoRequest, NewsDtoResponse, Long> newsService;
 
     @Autowired
-    public NewsController(NewsService newsService) {
+    public NewsController(BaseService<NewsDtoRequest, NewsDtoResponse, Long> newsService) {
         this.newsService = newsService;
     }
 
@@ -45,7 +46,7 @@ public class NewsController implements BaseController<NewsDtoRequest, NewsDtoRes
 
     public List<NewsDtoResponse> getNewsByCriteria(List<String> tagNames, List<Long> tagIds, String authorName,
                                                    String title, String content) {
-        return newsService.getNewsByCriteria(tagNames, tagIds, authorName, title, content);
+        return ((NewsService) newsService).getNewsByCriteria(tagNames, tagIds, authorName, title, content);
     }
 
 }

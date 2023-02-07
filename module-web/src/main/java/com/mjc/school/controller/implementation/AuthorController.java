@@ -1,6 +1,7 @@
 package com.mjc.school.controller.implementation;
 
 import com.mjc.school.controller.BaseController;
+import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.implementation.AuthorService;
@@ -11,10 +12,10 @@ import java.util.List;
 
 @Controller
 public class AuthorController implements BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> {
-    private final AuthorService authorService;
+    private final BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> authorService;
 
     @Autowired
-    public AuthorController(AuthorService authorService) {
+    public AuthorController(BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> authorService) {
         this.authorService = authorService;
     }
 
@@ -44,6 +45,6 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
     }
 
     public AuthorDtoResponse getAuthorByNewsId(Long id) {
-        return authorService.getAuthorByNewsId(id);
+        return ((AuthorService) authorService).getAuthorByNewsId(id);
     }
 }

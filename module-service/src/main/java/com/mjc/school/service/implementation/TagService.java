@@ -1,5 +1,6 @@
 package com.mjc.school.service.implementation;
 
+import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.implementation.TagRepository;
 import com.mjc.school.repository.model.TagModel;
 import com.mjc.school.service.BaseService;
@@ -17,11 +18,11 @@ import java.util.Optional;
 
 @Service
 public class TagService implements BaseService<TagDtoRequest, TagDtoResponse, Long> {
-    private final TagRepository tagRepository;
+    private final BaseRepository<TagModel, Long> tagRepository;
     private final NewsManagementValidator validator;
     private final TagMapper tagMapper;
 
-    public TagService(TagRepository tagRepository, NewsManagementValidator validator, TagMapper tagMapper) {
+    public TagService(BaseRepository<TagModel, Long> tagRepository, NewsManagementValidator validator, TagMapper tagMapper) {
         this.tagRepository = tagRepository;
         this.validator = validator;
         this.tagMapper = tagMapper;
@@ -68,7 +69,7 @@ public class TagService implements BaseService<TagDtoRequest, TagDtoResponse, Lo
 
     public List<TagDtoResponse> getTagsByNewsId(Long id) {
         validator.validateId(id);
-        List<TagModel> tagModels = tagRepository.getTagsByNewsId(id);
+        List<TagModel> tagModels = ((TagRepository) tagRepository).getTagsByNewsId(id);
         if (tagModels == null) {
             throw new ServiceException(String.format(ErrorCode.NEWS_DOES_NOT_EXIST.toString(), id));
         }

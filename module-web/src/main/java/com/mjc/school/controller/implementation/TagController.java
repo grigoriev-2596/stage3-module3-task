@@ -1,6 +1,7 @@
 package com.mjc.school.controller.implementation;
 
 import com.mjc.school.controller.BaseController;
+import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.TagDtoRequest;
 import com.mjc.school.service.dto.TagDtoResponse;
 import com.mjc.school.service.implementation.TagService;
@@ -11,10 +12,10 @@ import java.util.List;
 
 @Controller
 public class TagController implements BaseController<TagDtoRequest, TagDtoResponse, Long> {
-    private final TagService tagService;
+    private final BaseService<TagDtoRequest, TagDtoResponse, Long> tagService;
 
     @Autowired
-    public TagController(TagService tagService) {
+    public TagController(BaseService<TagDtoRequest, TagDtoResponse, Long> tagService) {
         this.tagService = tagService;
     }
 
@@ -44,6 +45,6 @@ public class TagController implements BaseController<TagDtoRequest, TagDtoRespon
     }
 
     public List<TagDtoResponse> getTagByNewsId(Long id) {
-        return tagService.getTagsByNewsId(id);
+        return ((TagService) tagService).getTagsByNewsId(id);
     }
 }

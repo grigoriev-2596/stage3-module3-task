@@ -1,5 +1,6 @@
 package com.mjc.school.service.implementation;
 
+import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.implementation.AuthorRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.service.AuthorMapper;
@@ -17,12 +18,12 @@ import java.util.Optional;
 
 @Service
 public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> {
-    private final AuthorRepository authorRepository;
+    private final BaseRepository<AuthorModel, Long> authorRepository;
     private final NewsManagementValidator validator;
     private final AuthorMapper authorMapper;
 
     @Autowired
-    public AuthorService(AuthorRepository authorRepository, NewsManagementValidator authorValidator, AuthorMapper authorMapper) {
+    public AuthorService(BaseRepository<AuthorModel, Long> authorRepository, NewsManagementValidator authorValidator, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
         this.validator = authorValidator;
         this.authorMapper = authorMapper;
@@ -66,7 +67,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
 
     public AuthorDtoResponse getAuthorByNewsId(Long id) {
         validator.validateId(id);
-        AuthorModel authorModel = authorRepository.getAuthorByNewsId(id);
+        AuthorModel authorModel = ((AuthorRepository) authorRepository).getAuthorByNewsId(id);
         if (authorModel == null) {
             throw new ServiceException(String.format(ErrorCode.NEWS_DOES_NOT_EXIST.toString(), id));
         }

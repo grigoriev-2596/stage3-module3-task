@@ -1,8 +1,6 @@
 package com.mjc.school.service.implementation;
 
-import com.mjc.school.repository.implementation.AuthorRepository;
-import com.mjc.school.repository.implementation.NewsRepository;
-import com.mjc.school.repository.implementation.TagRepository;
+import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
@@ -16,21 +14,22 @@ import com.mjc.school.service.validation.NewsManagementValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 @Service
 public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
-    private final NewsRepository newsRepository;
-    private final AuthorRepository authorRepository;
-    private final TagRepository tagRepository;
+    private final BaseRepository<NewsModel, Long> newsRepository;
+    private final BaseRepository<AuthorModel, Long> authorRepository;
+    private final BaseRepository<TagModel, Long> tagRepository;
     private final NewsManagementValidator validator;
     private final NewsMapper newsMapper;
 
     @Autowired
-    public NewsService(NewsRepository newsRepository, AuthorRepository authorRepository, TagRepository tagRepository,
-                       NewsManagementValidator validator, NewsMapper newsMapper) {
+    public NewsService(BaseRepository<NewsModel, Long> newsRepository, BaseRepository<AuthorModel, Long> authorRepository,
+                       BaseRepository<TagModel, Long> tagRepository, NewsManagementValidator validator, NewsMapper newsMapper) {
         this.newsRepository = newsRepository;
         this.authorRepository = authorRepository;
         this.tagRepository = tagRepository;
@@ -121,10 +120,10 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
                                                              String authorName, String title, String content) {
         Predicate<NewsModel> newsPredicate = news -> true;
         if (tagNames != null && !tagNames.isEmpty()) {
-            newsPredicate = newsPredicate.and(news -> news.getTags().stream().map(TagModel::getName).toList().containsAll(tagNames));
+            newsPredicate = newsPredicate.and(news -> new HashSet<>(news.getTags().stream().map(TagModel::getName).toList()).containsAll(tagNames));
         }
         if (tagIds != null && !tagIds.isEmpty()) {
-            newsPredicate = newsPredicate.and(news -> news.getTags().stream().map(TagModel::getId).toList().containsAll(tagIds));
+            newsPredicate = newsPredicate.and(news -> new HashSet<>(news.getTags().stream().map(TagModel::getId).toList()).containsAll(tagIds));
         }
         if (authorName != null && !authorName.isBlank()) {
             newsPredicate = newsPredicate.and(news -> news.getAuthor().getName().equalsIgnoreCase(authorName));
