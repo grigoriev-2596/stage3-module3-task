@@ -1,6 +1,9 @@
 package com.mjc.school.implementation;
 
+import com.mjc.school.repository.implementation.NewsRepository;
 import com.mjc.school.repository.implementation.TagRepository;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
 import com.mjc.school.service.TagMapper;
 import com.mjc.school.service.dto.TagDtoRequest;
@@ -9,10 +12,10 @@ import com.mjc.school.service.validation.NewsManagementValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,20 +28,27 @@ class TagServiceTest {
     @Mock
     TagRepository tagRepository;
     @Mock
+    NewsRepository newsRepository;
+    @Mock
     TagMapper tagMapper;
     @Mock
     NewsManagementValidator validator;
 
-    @InjectMocks
     TagService tagService;
 
     private TagDtoRequest tagDtoRequest;
     private TagModel tagModel;
+    private NewsModel newsModel;
 
     @BeforeEach
     public void setup() {
+        tagService = new TagService(tagRepository, newsRepository, validator, tagMapper);
+
+        LocalDateTime now = LocalDateTime.now();
         tagDtoRequest = new TagDtoRequest(1L, "climate");
         tagModel = new TagModel(tagDtoRequest.getId(), tagDtoRequest.getName());
+        newsModel = new NewsModel(2L, "title", "content", now, now, new AuthorModel(1L, "Egor", now, now));
+        newsModel.setTags(List.of(tagModel));
     }
 
     @Test
@@ -99,11 +109,11 @@ class TagServiceTest {
     @Test
     void getAuthorByNewsId() {
         Long newsId = tagDtoRequest.getId();
-        given(tagRepository.getTagsByNewsId(newsId)).willReturn(List.of(tagModel));
+        given(newsRepository.readById(newsId)).willReturn(Optional.of(newsModel));
         tagService.getTagsByNewsId(newsId);
 
         verify(validator, times(1)).validateId(newsId);
-        verify(tagRepository, times(1)).getTagsByNewsId(newsId);
+        verify(newsRepository, times(1)).readById(newsId);
         verify(tagMapper, times(1)).listOfModelsToListOfResponses(List.of(tagModel));
     }
 

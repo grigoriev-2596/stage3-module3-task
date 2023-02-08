@@ -1,8 +1,8 @@
 package com.mjc.school.service.implementation;
 
 import com.mjc.school.repository.BaseRepository;
-import com.mjc.school.repository.implementation.AuthorRepository;
 import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.AuthorMapper;
 import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
@@ -19,12 +19,15 @@ import java.util.Optional;
 @Service
 public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> {
     private final BaseRepository<AuthorModel, Long> authorRepository;
+    private final BaseRepository<NewsModel, Long> newsRepository;
     private final NewsManagementValidator validator;
     private final AuthorMapper authorMapper;
 
     @Autowired
-    public AuthorService(BaseRepository<AuthorModel, Long> authorRepository, NewsManagementValidator authorValidator, AuthorMapper authorMapper) {
+    public AuthorService(BaseRepository<AuthorModel, Long> authorRepository, BaseRepository<NewsModel, Long> newsRepository,
+                         NewsManagementValidator authorValidator, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
+        this.newsRepository = newsRepository;
         this.validator = authorValidator;
         this.authorMapper = authorMapper;
     }
@@ -67,11 +70,11 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
 
     public AuthorDtoResponse getAuthorByNewsId(Long id) {
         validator.validateId(id);
-        AuthorModel authorModel = ((AuthorRepository) authorRepository).getAuthorByNewsId(id);
-        if (authorModel == null) {
+        Optional<NewsModel> maybeNullNews = newsRepository.readById(id);
+        if (maybeNullNews.isEmpty()) {
             throw new ServiceException(String.format(ErrorCode.NEWS_DOES_NOT_EXIST.toString(), id));
         }
-        return authorMapper.modelToDtoResponse(authorModel);
+        return authorMapper.modelToDtoResponse(maybeNullNews.get().getAuthor());
     }
 
     @Override

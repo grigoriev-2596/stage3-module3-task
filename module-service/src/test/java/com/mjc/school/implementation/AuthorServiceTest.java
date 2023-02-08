@@ -1,7 +1,9 @@
 package com.mjc.school.implementation;
 
 import com.mjc.school.repository.implementation.AuthorRepository;
+import com.mjc.school.repository.implementation.NewsRepository;
 import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.AuthorMapper;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.implementation.AuthorService;
@@ -9,7 +11,6 @@ import com.mjc.school.service.validation.NewsManagementValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -26,21 +27,27 @@ class AuthorServiceTest {
     @Mock
     AuthorRepository authorRepository;
     @Mock
+    NewsRepository newsRepository;
+    @Mock
     AuthorMapper authorMapper;
     @Mock
     NewsManagementValidator validator;
 
-    @InjectMocks
     AuthorService authorService;
 
     private AuthorDtoRequest authorDtoRequest;
     private AuthorModel authorModel;
 
+    private NewsModel newsModel;
+
     @BeforeEach
     public void setup() {
+        authorService = new AuthorService(authorRepository, newsRepository, validator, authorMapper);
+
         LocalDateTime now = LocalDateTime.now();
         authorDtoRequest = new AuthorDtoRequest(1L, "Grigoriev Egor");
         authorModel = new AuthorModel(authorDtoRequest.getId(), authorDtoRequest.getName(), now, now);
+        newsModel = new NewsModel(2L, "title", "content", now, now, authorModel);
     }
 
     @Test
@@ -98,11 +105,11 @@ class AuthorServiceTest {
     @Test
     void getAuthorByNewsId() {
         final Long newsId = 2L;
-        given(authorRepository.getAuthorByNewsId(newsId)).willReturn(authorModel);
+        given(newsRepository.readById(newsId)).willReturn(Optional.of(newsModel));
         authorService.getAuthorByNewsId(newsId);
 
         verify(validator, times(1)).validateId(newsId);
-        verify(authorRepository, times(1)).getAuthorByNewsId(newsId);
+        verify(newsRepository, times(1)).readById(newsId);
         verify(authorMapper, times(1)).modelToDtoResponse(authorModel);
     }
 

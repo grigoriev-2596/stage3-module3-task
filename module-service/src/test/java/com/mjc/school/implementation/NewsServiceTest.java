@@ -10,20 +10,18 @@ import com.mjc.school.service.NewsMapper;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.implementation.NewsService;
 import com.mjc.school.service.validation.NewsManagementValidator;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -41,7 +39,6 @@ class NewsServiceTest {
     @Mock
     private NewsManagementValidator validator;
 
-    @InjectMocks
     private NewsService newsService;
 
     private NewsModel newsModel;
@@ -51,6 +48,8 @@ class NewsServiceTest {
 
     @BeforeEach
     public void setup() {
+        newsService = new NewsService(newsRepository, authorRepository, tagsRepository, validator, newsMapper);
+
         LocalDateTime now = LocalDateTime.now();
         tagModel = new TagModel(1L, "climate");
         authorModel = new AuthorModel(1L, "Grigoriev Egor", now, now);
@@ -116,7 +115,7 @@ class NewsServiceTest {
         newsService.deleteById(id);
 
         verify(validator, times(1)).validateId(id);
-        verify(newsRepository,times(1)).deleteById(id);
+        verify(newsRepository, times(1)).deleteById(id);
     }
 
     @Test

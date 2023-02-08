@@ -1,6 +1,9 @@
 package com.mjc.school.service.implementation;
 
 import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.implementation.AuthorRepository;
+import com.mjc.school.repository.implementation.NewsRepository;
+import com.mjc.school.repository.implementation.TagRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
@@ -27,7 +30,6 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     private final NewsManagementValidator validator;
     private final NewsMapper newsMapper;
 
-    @Autowired
     public NewsService(BaseRepository<NewsModel, Long> newsRepository, BaseRepository<AuthorModel, Long> authorRepository,
                        BaseRepository<TagModel, Long> tagRepository, NewsManagementValidator validator, NewsMapper newsMapper) {
         this.newsRepository = newsRepository;
@@ -36,6 +38,9 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
         this.validator = validator;
         this.newsMapper = newsMapper;
     }
+
+    @Autowired
+
 
     @Override
     public List<NewsDtoResponse> readAll() {
