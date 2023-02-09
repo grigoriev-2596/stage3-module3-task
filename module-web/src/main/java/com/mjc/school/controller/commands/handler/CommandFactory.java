@@ -74,7 +74,7 @@ public class CommandFactory {
     }
 
     public Command getAuthorByNewsIdCommand(Long id) {
-        return new GetAuthorByNewsIdCommand((AuthorController) authorController, id);
+        return new GetAuthorByNewsIdCommand(authorController, id);
     }
 
     //tag commands
@@ -99,6 +99,6 @@ public class CommandFactory {
     }
 
     public Command getTagsByNewsIdCommand(Long id) {
-        return new GetTagsByNewsIdCommand((TagController) tagController, id);
+        return new GetTagsByNewsIdCommand(tagController, id);
     }
 }

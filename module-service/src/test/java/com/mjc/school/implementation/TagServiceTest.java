@@ -68,7 +68,7 @@ class TagServiceTest {
         given(tagRepository.create(tagModel)).willReturn(tagModel);
         tagService.create(tagDtoRequest);
 
-        verify(validator, times(1)).validateTagRequest(tagDtoRequest);
+        verify(validator, times(1)).validateTagRequestWithoutId(tagDtoRequest);
         verify(tagMapper, times(1)).dtoRequestToModel(tagDtoRequest);
         verify(tagRepository, times(1)).create(tagModel);
         verify(tagMapper, times(1)).modelToDtoResponse(tagModel);
@@ -90,7 +90,7 @@ class TagServiceTest {
         given(tagRepository.update(tagModel)).willReturn(tagModel);
         tagService.update(tagDtoRequest);
 
-        verify(validator, times(1)).validateTagRequest(tagDtoRequest);
+        verify(validator, times(1)).validateTagRequestWithoutId(tagDtoRequest);
         verify(validator, times(1)).validateId(tagDtoRequest.getId());
         verify(tagMapper, times(1)).dtoRequestToModel(tagDtoRequest);
         verify(tagRepository, times(1)).update(tagModel);

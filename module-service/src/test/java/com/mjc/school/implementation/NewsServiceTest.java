@@ -10,11 +10,9 @@ import com.mjc.school.service.NewsMapper;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.implementation.NewsService;
 import com.mjc.school.service.validation.NewsManagementValidator;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -77,7 +75,7 @@ class NewsServiceTest {
         given(newsRepository.create(newsModel)).willReturn(newsModel);
         newsService.create(newsDtoRequest);
 
-        verify(validator, times(1)).validateNewsRequest(newsDtoRequest);
+        verify(validator, times(1)).validateNewsRequestWithoutId(newsDtoRequest);
         verify(validator, atLeast(2)).validateId(any(Long.class));
         verify(newsMapper, times(1)).dtoRequestToModel(newsDtoRequest);
         verify(newsMapper, times(1)).modelToDtoResponse(newsModel);
@@ -102,7 +100,7 @@ class NewsServiceTest {
         given(tagsRepository.readById(any(Long.class))).willReturn(Optional.of(tagModel));
         newsService.update(newsDtoRequest);
 
-        verify(validator, times(1)).validateNewsRequest(newsDtoRequest);
+        verify(validator, times(1)).validateNewsRequestWithoutId(newsDtoRequest);
         verify(validator, atLeast(2)).validateId(any(Long.class));
         verify(newsMapper, times(1)).dtoRequestToModel(newsDtoRequest);
         verify(newsMapper, times(1)).modelToDtoResponse(newsModel);

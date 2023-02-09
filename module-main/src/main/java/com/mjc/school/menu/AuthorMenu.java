@@ -21,18 +21,19 @@ public class AuthorMenu extends Menu {
         System.out.print("Enter author name:\n>>");
         String name = scanner.nextLine();
 
-        System.out.println(commandFactory
+        Object result = commandFactory
                 .getCreateAuthorCommand(name)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void getAll() {
-        List<Object> authorList = Collections.unmodifiableList((List<Object>) commandFactory
+        Object result = commandFactory
                 .getReadAllAuthorsCommand()
-                .execute());
-        authorList.forEach(System.out::println);
+                .execute();
+        ((Iterable) result).forEach(System.out::println);
     }
 
     @Override
@@ -40,9 +41,10 @@ public class AuthorMenu extends Menu {
         System.out.print("Enter news id:\n>>");
         long authorId = readId();
 
-        System.out.println(commandFactory
+        Object result = commandFactory
                 .getReadAuthorByIdCommand(authorId)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     @Override
@@ -54,9 +56,10 @@ public class AuthorMenu extends Menu {
         System.out.print("Enter author name:\n>>");
         authorName = scanner.nextLine();
 
-        System.out.println(commandFactory
+        Object result = commandFactory
                 .getUpdateAuthorCommand(authorId, authorName)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     @Override
@@ -64,17 +67,19 @@ public class AuthorMenu extends Menu {
         System.out.print("Enter author id:\n>>");
         long authorId = readId();
 
-        System.out.println(commandFactory
+        Object result = commandFactory
                 .getDeleteAuthorCommand(authorId)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     public void getAuthorByNewsId() {
         System.out.print("Enter news id:\n>>");
         long newsId = readId();
 
-        System.out.println(commandFactory.
+        Object result = commandFactory.
                 getAuthorByNewsIdCommand(newsId)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 }

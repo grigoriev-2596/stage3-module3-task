@@ -1,9 +1,6 @@
 package com.mjc.school.service.implementation;
 
 import com.mjc.school.repository.BaseRepository;
-import com.mjc.school.repository.implementation.AuthorRepository;
-import com.mjc.school.repository.implementation.NewsRepository;
-import com.mjc.school.repository.implementation.TagRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
@@ -59,11 +56,10 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
 
     @Override
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
-        validator.validateNewsRequest(createRequest);
+        validator.validateNewsRequestWithoutId(createRequest);
         NewsModel model = newsMapper.dtoRequestToModel(createRequest);
-
-        addAuthorToNewsModelById(model, createRequest.getAuthorId());
-        addTagsToNewsModelById(model, createRequest.getTagIds());
+        addAuthorToNewsModelByAuthorId(model, createRequest.getAuthorId());
+        addTagsToNewsModelByTagId(model, createRequest.getTagIds());
         model = newsRepository.create(model);
         return newsMapper.modelToDtoResponse(model);
     }
@@ -71,12 +67,9 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
         validator.validateNewsRequest(updateRequest);
-        validator.validateId(updateRequest.getId());
-
         NewsModel model = newsMapper.dtoRequestToModel(updateRequest);
-
-        addAuthorToNewsModelById(model, updateRequest.getAuthorId());
-        addTagsToNewsModelById(model, updateRequest.getTagIds());
+        addAuthorToNewsModelByAuthorId(model, updateRequest.getAuthorId());
+        addTagsToNewsModelByTagId(model, updateRequest.getTagIds());
         NewsModel updateModel = newsRepository.update(model);
         if (updateModel == null) {
             throw new ServiceException(String.format(ErrorCode.NEWS_DOES_NOT_EXIST.toString(), updateRequest.getId()));
@@ -94,13 +87,13 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
                                                    String authorName, String title, String content) {
         List<NewsModel> newsModels = newsRepository.readAll()
                 .stream()
-                .filter(allNotNullCriteriaPredicate(tagNames, tagIds, authorName, title, content))
+                .filter(allNotNullParameterPredicate(tagNames, tagIds, authorName, title, content))
                 .toList();
         return newsMapper.listOfModelsToListOfResponses(newsModels);
     }
 
 
-    private void addTagsToNewsModelById(NewsModel model, List<Long> tagIds) {
+    private void addTagsToNewsModelByTagId(NewsModel model, List<Long> tagIds) {
         List<TagModel> tags = tagIds.stream().map(tagId -> {
             validator.validateId(tagId);
             Optional<TagModel> maybeNullTag = tagRepository.readById(tagId);
@@ -112,7 +105,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
         model.setTags(tags);
     }
 
-    private void addAuthorToNewsModelById(NewsModel model, Long authorId) {
+    private void addAuthorToNewsModelByAuthorId(NewsModel model, Long authorId) {
         validator.validateId(authorId);
         Optional<AuthorModel> maybeNullAuthor = authorRepository.readById(authorId);
         if (maybeNullAuthor.isEmpty()) {
@@ -121,8 +114,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
         model.setAuthor(maybeNullAuthor.get());
     }
 
-    private Predicate<NewsModel> allNotNullCriteriaPredicate(List<String> tagNames, List<Long> tagIds,
-                                                             String authorName, String title, String content) {
+    private Predicate<NewsModel> allNotNullParameterPredicate(List<String> tagNames, List<Long> tagIds,
+                                                              String authorName, String title, String content) {
         Predicate<NewsModel> newsPredicate = news -> true;
         if (tagNames != null && !tagNames.isEmpty()) {
             newsPredicate = newsPredicate.and(news -> new HashSet<>(news.getTags().stream().map(TagModel::getName).toList()).containsAll(tagNames));

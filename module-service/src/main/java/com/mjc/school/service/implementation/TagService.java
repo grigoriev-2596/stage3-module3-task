@@ -48,7 +48,7 @@ public class TagService implements BaseService<TagDtoRequest, TagDtoResponse, Lo
 
     @Override
     public TagDtoResponse create(TagDtoRequest createRequest) {
-        validator.validateTagRequest(createRequest);
+        validator.validateTagRequestWithoutId(createRequest);
         TagModel model = tagRepository.create(tagMapper.dtoRequestToModel(createRequest));
         return tagMapper.modelToDtoResponse(model);
     }
@@ -56,7 +56,6 @@ public class TagService implements BaseService<TagDtoRequest, TagDtoResponse, Lo
     @Override
     public TagDtoResponse update(TagDtoRequest updateRequest) {
         validator.validateTagRequest(updateRequest);
-        validator.validateId(updateRequest.getId());
         TagModel updateModel = tagRepository.update(tagMapper.dtoRequestToModel(updateRequest));
         if (updateModel == null) {
             throw new ServiceException(String.format(ErrorCode.TAG_DOES_NOT_EXIST.toString(), updateRequest.getId()));

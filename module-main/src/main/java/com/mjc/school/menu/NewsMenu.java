@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -31,18 +30,20 @@ public class NewsMenu extends Menu {
         authorId = readId();
         System.out.println("Enter tag ids (example: 1 3 7; can be empty):");
         tagIds = readTagIds();
-        System.out.println(commandFactory
+
+        Object result = commandFactory
                 .getCreateNewsCommand(title, content, authorId, tagIds)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void getAll() {
-        List<Object> newsList = Collections.unmodifiableList((List<Object>) commandFactory
+        Object result = commandFactory
                 .getReadAllNewsCommand()
-                .execute());
-        newsList.forEach(System.out::println);
+                .execute();
+        ((Iterable) result).forEach(System.out::println);
     }
 
     @Override
@@ -50,9 +51,10 @@ public class NewsMenu extends Menu {
         System.out.print("Enter news id:\n>>");
         long newsId = readId();
 
-        System.out.println(commandFactory
+        Object result = commandFactory
                 .getReadNewsByIdCommand(newsId)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     @Override
@@ -70,9 +72,11 @@ public class NewsMenu extends Menu {
         authorId = readId();
         System.out.println("Enter tag ids (example: 1 3 7; can be empty):");
         tagIds = readTagIds();
-        System.out.println(commandFactory
+
+        Object result = commandFactory
                 .getUpdateNewsCommand(newsId, title, content, authorId, tagIds)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     @Override
@@ -80,11 +84,13 @@ public class NewsMenu extends Menu {
         System.out.print("Enter news id:\n>>");
         long newsId = readId();
 
-        System.out.println(commandFactory
+        Object result = commandFactory
                 .getDeleteNewsCommand(newsId)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
+    @SuppressWarnings("unchecked")
     public void getNewsByCriteria() {
         String title, content, authorName;
         List<String> tagNames;
@@ -100,9 +106,10 @@ public class NewsMenu extends Menu {
         System.out.print("Enter news content:\n>>");
         content = scanner.nextLine();
 
-        System.out.println(commandFactory
+        Object result = commandFactory
                 .getNewsByCriteriaCommand(tagNames, tagIds, authorName, title, content)
-                .execute());
+                .execute();
+        ((Iterable) result).forEach(System.out::println);
     }
 
     private List<Long> readTagIds() {

@@ -20,18 +20,20 @@ public class TagMenu extends Menu {
     public void create() {
         System.out.print("Enter tag name:\n>>");
         String name = scanner.nextLine();
-        System.out.println(commandFactory.
+
+        Object result = commandFactory.
                 getCreateTagCommand(name)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void getAll() {
-        List<Object> tagsList = Collections.unmodifiableList((List<Object>) commandFactory.
+        Object result = commandFactory.
                 getReadAllTagsCommand().
-                execute());
-        tagsList.forEach(System.out::println);
+                execute();
+        ((Iterable) result).forEach(System.out::println);
     }
 
     @Override
@@ -39,9 +41,10 @@ public class TagMenu extends Menu {
         System.out.print("Enter tag id:\n>>");
         long id = readId();
 
-        System.out.println(commandFactory.
+        Object result = commandFactory.
                 getReadTagByIdCommand(id).
-                execute());
+                execute();
+        System.out.println(result);
     }
 
     @Override
@@ -53,9 +56,10 @@ public class TagMenu extends Menu {
         System.out.print("Enter tag name:\n>>");
         name = scanner.nextLine();
 
-        System.out.println(commandFactory.
+        Object result = commandFactory.
                 getUpdateTagCommand(id, name).
-                execute());
+                execute();
+        System.out.println(result);
     }
 
     @Override
@@ -63,17 +67,19 @@ public class TagMenu extends Menu {
         System.out.print("Enter tag id:\n>>");
         long id = readId();
 
-        System.out.println(commandFactory.
+        Object result = commandFactory.
                 getDeleteTagCommand(id).
-                execute());
+                execute();
+        System.out.println(result);
     }
 
     public void getTagsByNewsId() {
         System.out.print("Enter news id:\n>>");
         long newsId = readId();
 
-        System.out.println(commandFactory.
+        Object result = commandFactory.
                 getTagsByNewsIdCommand(newsId)
-                .execute());
+                .execute();
+        System.out.println(result);
     }
 }

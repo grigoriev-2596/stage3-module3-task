@@ -65,7 +65,7 @@ class AuthorServiceTest {
         given(authorRepository.create(authorModel)).willReturn(authorModel);
         authorService.create(authorDtoRequest);
 
-        verify(validator, times(1)).validateAuthorRequest(authorDtoRequest);
+        verify(validator, times(1)).validateAuthorRequestWithoutId(authorDtoRequest);
         verify(authorMapper, times(1)).dtoRequestToModel(authorDtoRequest);
         verify(authorRepository, times(1)).create(authorModel);
         verify(authorMapper, times(1)).modelToDtoResponse(authorModel);
@@ -86,7 +86,7 @@ class AuthorServiceTest {
         given(authorRepository.update(authorModel)).willReturn(authorModel);
         authorService.update(authorDtoRequest);
 
-        verify(validator, times(1)).validateAuthorRequest(authorDtoRequest);
+        verify(validator, times(1)).validateAuthorRequestWithoutId(authorDtoRequest);
         verify(validator, times(1)).validateId(authorDtoRequest.getId());
         verify(authorMapper, times(1)).dtoRequestToModel(authorDtoRequest);
         verify(authorRepository, times(1)).update(authorModel);

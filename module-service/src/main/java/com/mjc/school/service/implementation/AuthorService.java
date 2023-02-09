@@ -49,7 +49,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
 
     @Override
     public AuthorDtoResponse create(AuthorDtoRequest createRequest) {
-        validator.validateAuthorRequest(createRequest);
+        validator.validateAuthorRequestWithoutId(createRequest);
         AuthorModel model = authorMapper.dtoRequestToModel(createRequest);
         model = authorRepository.create(model);
         return authorMapper.modelToDtoResponse(model);
@@ -58,7 +58,6 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     @Override
     public AuthorDtoResponse update(AuthorDtoRequest updateRequest) {
         validator.validateAuthorRequest(updateRequest);
-        validator.validateId(updateRequest.getId());
         AuthorModel authorToUpdate = authorMapper.dtoRequestToModel(updateRequest);
         AuthorModel updatedAuthor = authorRepository.update(authorToUpdate);
         if (updatedAuthor == null) {
