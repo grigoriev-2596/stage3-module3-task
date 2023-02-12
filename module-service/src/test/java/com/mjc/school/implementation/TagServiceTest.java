@@ -5,9 +5,9 @@ import com.mjc.school.repository.implementation.TagRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
-import com.mjc.school.service.TagMapper;
+import com.mjc.school.service.mapper.TagMapper;
 import com.mjc.school.service.dto.TagDtoRequest;
-import com.mjc.school.service.implementation.TagService;
+import com.mjc.school.service.implementation.TagServiceImpl;
 import com.mjc.school.service.validation.NewsManagementValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ class TagServiceTest {
     @Mock
     NewsManagementValidator validator;
 
-    TagService tagService;
+    TagServiceImpl tagService;
 
     private TagDtoRequest tagDtoRequest;
     private TagModel tagModel;
@@ -42,7 +42,7 @@ class TagServiceTest {
 
     @BeforeEach
     public void setup() {
-        tagService = new TagService(tagRepository, newsRepository, validator, tagMapper);
+        tagService = new TagServiceImpl(tagRepository, newsRepository, validator, tagMapper);
 
         LocalDateTime now = LocalDateTime.now();
         tagDtoRequest = new TagDtoRequest(1L, "climate");
@@ -88,10 +88,10 @@ class TagServiceTest {
     void update() {
         given(tagMapper.dtoRequestToModel(tagDtoRequest)).willReturn(tagModel);
         given(tagRepository.update(tagModel)).willReturn(tagModel);
+        given(tagRepository.existById(tagDtoRequest.getId())).willReturn(true);
         tagService.update(tagDtoRequest);
 
-        verify(validator, times(1)).validateTagRequestWithoutId(tagDtoRequest);
-        verify(validator, times(1)).validateId(tagDtoRequest.getId());
+        verify(validator, times(1)).validateTagRequest(tagDtoRequest);
         verify(tagMapper, times(1)).dtoRequestToModel(tagDtoRequest);
         verify(tagRepository, times(1)).update(tagModel);
         verify(tagMapper, times(1)).modelToDtoResponse(tagModel);
@@ -99,6 +99,7 @@ class TagServiceTest {
 
     @Test
     void delete() {
+        given(tagRepository.existById(tagDtoRequest.getId())).willReturn(true);
         Long id = tagDtoRequest.getId();
         tagService.deleteById(id);
 

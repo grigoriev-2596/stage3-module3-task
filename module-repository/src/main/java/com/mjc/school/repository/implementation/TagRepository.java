@@ -1,19 +1,29 @@
 package com.mjc.school.repository.implementation;
 
 import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class TagRepository implements BaseRepository<TagModel, Long> {
-    @PersistenceContext
+    private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
+
+    @PersistenceUnit
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+        this.entityManager = entityManagerFactory.createEntityManager();
+    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -28,34 +38,29 @@ public class TagRepository implements BaseRepository<TagModel, Long> {
 
     @Override
     public TagModel create(TagModel entity) {
+        entityManager.getTransaction().begin();
         entityManager.persist(entity);
+        entityManager.getTransaction().commit();
         return entity;
     }
 
     @Override
     public TagModel update(TagModel entity) {
-        Optional<TagModel> maybeNullTag = readById(entity.getId());
-        if (maybeNullTag.isEmpty()) {
-            return null;
-        }
-        TagModel toUpdate = maybeNullTag.get();
+        entityManager.getTransaction().begin();
+        TagModel toUpdate = entityManager.getReference(TagModel.class, entity.getId());
         toUpdate.setName(entity.getName());
+        entityManager.getTransaction().commit();
         return toUpdate;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return entityManager.createQuery("delete from TagModel where id=:id")
+        entityManager.getTransaction().begin();
+        boolean isDeleted = entityManager.createQuery("delete from TagModel t where t.id=:id")
                 .setParameter("id", id)
                 .executeUpdate() != 0;
-    }
-
-    public List<TagModel> getTagsByNewsId(Long newsId) {
-        NewsModel newsModel = entityManager.find(NewsModel.class, newsId);
-        if (newsModel == null) {
-            return null;
-        }
-        return newsModel.getTags();
+        entityManager.getTransaction().commit();
+        return isDeleted;
     }
 
     @Override

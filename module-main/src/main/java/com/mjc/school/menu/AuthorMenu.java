@@ -18,7 +18,7 @@ public class AuthorMenu extends Menu {
 
     @Override
     public void create() {
-        System.out.print("Enter author name:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_NAME);
         String name = scanner.nextLine();
 
         Object result = commandFactory
@@ -38,7 +38,7 @@ public class AuthorMenu extends Menu {
 
     @Override
     public void getById() {
-        System.out.print("Enter news id:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_ID);
         long authorId = readId();
 
         Object result = commandFactory
@@ -51,9 +51,9 @@ public class AuthorMenu extends Menu {
     public void update() {
         String authorName;
         long authorId;
-        System.out.print("Enter author id:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_ID);
         authorId = readId();
-        System.out.print("Enter author name:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_NAME);
         authorName = scanner.nextLine();
 
         Object result = commandFactory
@@ -64,7 +64,7 @@ public class AuthorMenu extends Menu {
 
     @Override
     public void delete() {
-        System.out.print("Enter author id:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_ID);
         long authorId = readId();
 
         Object result = commandFactory
@@ -74,7 +74,7 @@ public class AuthorMenu extends Menu {
     }
 
     public void getAuthorByNewsId() {
-        System.out.print("Enter news id:\n>>");
+        System.out.print(Constant.ENTER_NEWS_ID);
         long newsId = readId();
 
         Object result = commandFactory.

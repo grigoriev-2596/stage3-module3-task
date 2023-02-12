@@ -41,10 +41,10 @@ public class MenuRunner {
         while (true) {
             try {
                 printMenu();
-                System.out.print("Enter the number of operation \n>>");
+                System.out.print(Constant.ENTER_NUMBER_OF_OPERATION);
                 int commandId = readCommandId();
                 CommandConstants commandConstant = CommandConstants.valueOf(commandId);
-                System.out.println("Operation: " + commandConstant.getName());
+                System.out.println(Constant.OPERATION + commandConstant.getName());
                 switch (commandConstant) {
                     case EXIT -> exit(0);
                     case CREATE_NEWS -> newsMenu.create();
@@ -65,7 +65,6 @@ public class MenuRunner {
                     case GET_TAGS_BY_NEWS_ID -> tagMenu.getTagsByNewsId();
                     case GET_AUTHOR_BY_NEWS_ID -> authorMenu.getAuthorByNewsId();
                     case GET_NEWS_BY_CRITERIA -> newsMenu.getNewsByCriteria();
-                    default -> System.out.println("Command not found");
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

@@ -18,7 +18,7 @@ public class TagMenu extends Menu {
 
     @Override
     public void create() {
-        System.out.print("Enter tag name:\n>>");
+        System.out.print(Constant.ENTER_TAG_NAME);
         String name = scanner.nextLine();
 
         Object result = commandFactory.
@@ -38,7 +38,7 @@ public class TagMenu extends Menu {
 
     @Override
     public void getById() {
-        System.out.print("Enter tag id:\n>>");
+        System.out.print(Constant.ENTER_TAG_ID);
         long id = readId();
 
         Object result = commandFactory.
@@ -51,9 +51,9 @@ public class TagMenu extends Menu {
     public void update() {
         String name;
         long id;
-        System.out.print("Enter tag id:\n>>");
+        System.out.print(Constant.ENTER_TAG_ID);
         id = readId();
-        System.out.print("Enter tag name:\n>>");
+        System.out.print(Constant.ENTER_TAG_NAME);
         name = scanner.nextLine();
 
         Object result = commandFactory.
@@ -64,7 +64,7 @@ public class TagMenu extends Menu {
 
     @Override
     public void delete() {
-        System.out.print("Enter tag id:\n>>");
+        System.out.print(Constant.ENTER_TAG_ID);
         long id = readId();
 
         Object result = commandFactory.
@@ -74,7 +74,7 @@ public class TagMenu extends Menu {
     }
 
     public void getTagsByNewsId() {
-        System.out.print("Enter news id:\n>>");
+        System.out.print(Constant.ENTER_NEWS_ID);
         long newsId = readId();
 
         Object result = commandFactory.

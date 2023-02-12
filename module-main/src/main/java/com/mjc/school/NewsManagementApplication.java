@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import java.util.Scanner;
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class NewsManagementApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(NewsManagementApplication.class, args);
@@ -17,7 +18,6 @@ public class NewsManagementApplication {
         menu.setScanner(new Scanner(System.in));
         menu.runMenu();
     }
-
 
 }
 

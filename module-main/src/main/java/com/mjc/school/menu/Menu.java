@@ -19,7 +19,7 @@ public abstract class Menu {
 
     public abstract void delete();
 
-    public long readId() {
+    protected long readId() {
         if (!scanner.hasNextLong()) {
             scanner.nextLine();
             throw new IllegalArgumentException("Id must be an integer");

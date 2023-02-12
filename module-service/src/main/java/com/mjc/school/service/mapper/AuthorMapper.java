@@ -1,4 +1,4 @@
-package com.mjc.school.service;
+package com.mjc.school.service.mapper;
 
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.service.dto.AuthorDtoRequest;
@@ -14,12 +14,7 @@ public abstract class AuthorMapper {
     @Mapping(target = "news", ignore = true)
     public abstract AuthorModel dtoRequestToModel(AuthorDtoRequest dto);
 
-    @Mapping(target = "news", ignore = true)
-    public abstract AuthorModel dtoResponseToModel(AuthorDtoResponse dto);
-
     public abstract AuthorDtoResponse modelToDtoResponse(AuthorModel model);
 
     public abstract List<AuthorDtoResponse> listOfModelsToListOfResponses(List<AuthorModel> modelList);
-
-    public abstract List<AuthorModel> listOfResponsesToListOfModel(List<AuthorDtoResponse> responseList);
 }

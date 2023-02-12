@@ -1,5 +1,9 @@
 package com.mjc.school.repository.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
@@ -9,6 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "news")
+@EntityListeners(AuditingEntityListener.class)
 public class NewsModel implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_generator")
@@ -18,9 +23,11 @@ public class NewsModel implements BaseEntity<Long> {
     private String title;
     @Column
     private String content;
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", updatable = false)
+    @CreatedDate
     private LocalDateTime creationDate;
     @Column(name = "last_update_date")
+    @LastModifiedDate
     private LocalDateTime lastUpdateDate;
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -32,7 +39,14 @@ public class NewsModel implements BaseEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<TagModel> tags = new ArrayList<>();
 
-    public NewsModel(Long id, String title, String content, LocalDateTime creationDate, LocalDateTime lastUpdateDate, AuthorModel author) {
+    public NewsModel(Long id, String title, String content, LocalDateTime creationDate,
+                     LocalDateTime lastUpdateDate, AuthorModel author, List<TagModel> tags) {
+        this(id, title, content, creationDate, lastUpdateDate, author);
+        this.tags = tags;
+    }
+
+    public NewsModel(Long id, String title, String content, LocalDateTime creationDate,
+                     LocalDateTime lastUpdateDate, AuthorModel author) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -43,18 +57,6 @@ public class NewsModel implements BaseEntity<Long> {
 
     public NewsModel() {
 
-    }
-
-    @PrePersist
-    public void setDates() {
-        LocalDateTime now = LocalDateTime.now();
-        setCreationDate(now);
-        setLastUpdateDate(now);
-    }
-
-    @PreUpdate
-    public void setLastUpdateDate() {
-        setLastUpdateDate(LocalDateTime.now());
     }
 
     @Override

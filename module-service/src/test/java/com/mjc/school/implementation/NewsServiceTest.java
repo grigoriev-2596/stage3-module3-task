@@ -6,9 +6,9 @@ import com.mjc.school.repository.implementation.TagRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.model.TagModel;
-import com.mjc.school.service.NewsMapper;
+import com.mjc.school.service.mapper.NewsMapper;
 import com.mjc.school.service.dto.NewsDtoRequest;
-import com.mjc.school.service.implementation.NewsService;
+import com.mjc.school.service.implementation.NewsServiceImpl;
 import com.mjc.school.service.validation.NewsManagementValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,26 +31,24 @@ class NewsServiceTest {
     @Mock
     private AuthorRepository authorRepository;
     @Mock
-    private TagRepository tagsRepository;
+    private TagRepository tagRepository;
     @Mock
     private NewsMapper newsMapper;
     @Mock
     private NewsManagementValidator validator;
 
-    private NewsService newsService;
+    private NewsServiceImpl newsService;
 
     private NewsModel newsModel;
     private NewsDtoRequest newsDtoRequest;
-    private AuthorModel authorModel;
-    private TagModel tagModel;
 
     @BeforeEach
     public void setup() {
-        newsService = new NewsService(newsRepository, authorRepository, tagsRepository, validator, newsMapper);
+        newsService = new NewsServiceImpl(newsRepository, authorRepository, tagRepository, validator, newsMapper);
 
         LocalDateTime now = LocalDateTime.now();
-        tagModel = new TagModel(1L, "climate");
-        authorModel = new AuthorModel(1L, "Grigoriev Egor", now, now);
+        TagModel tagModel = new TagModel(1L, "climate");
+        AuthorModel authorModel = new AuthorModel(1L, "Grigoriev Egor", now, now);
 
         newsDtoRequest = new NewsDtoRequest(2L, "title", "content", authorModel.getId(), List.of(tagModel.getId()));
         newsModel = new NewsModel(newsDtoRequest.getId(), newsDtoRequest.getTitle(), newsDtoRequest.getContent(), now, now, authorModel);
@@ -70,16 +68,15 @@ class NewsServiceTest {
     @Test
     void create() {
         given(newsMapper.dtoRequestToModel(newsDtoRequest)).willReturn(newsModel);
-        given(authorRepository.readById(newsDtoRequest.getAuthorId())).willReturn(Optional.of(authorModel));
-        given(tagsRepository.readById(any(Long.class))).willReturn(Optional.of(tagModel));
         given(newsRepository.create(newsModel)).willReturn(newsModel);
+        given(authorRepository.existById(newsDtoRequest.getAuthorId())).willReturn(true);
+        given(tagRepository.existById(any(Long.class))).willReturn(true);
         newsService.create(newsDtoRequest);
 
         verify(validator, times(1)).validateNewsRequestWithoutId(newsDtoRequest);
-        verify(validator, atLeast(2)).validateId(any(Long.class));
         verify(newsMapper, times(1)).dtoRequestToModel(newsDtoRequest);
-        verify(newsMapper, times(1)).modelToDtoResponse(newsModel);
         verify(newsRepository, times(1)).create(newsModel);
+        verify(newsMapper, times(1)).modelToDtoResponse(newsModel);
     }
 
     @Test
@@ -96,19 +93,20 @@ class NewsServiceTest {
     void update() {
         given(newsMapper.dtoRequestToModel(newsDtoRequest)).willReturn(newsModel);
         given(newsRepository.update(newsModel)).willReturn(newsModel);
-        given(authorRepository.readById(newsDtoRequest.getAuthorId())).willReturn(Optional.of(authorModel));
-        given(tagsRepository.readById(any(Long.class))).willReturn(Optional.of(tagModel));
+        given(newsRepository.existById(newsDtoRequest.getId())).willReturn(true);
+        given(authorRepository.existById(newsDtoRequest.getAuthorId())).willReturn(true);
+        given(tagRepository.existById(any(Long.class))).willReturn(true);
         newsService.update(newsDtoRequest);
 
-        verify(validator, times(1)).validateNewsRequestWithoutId(newsDtoRequest);
-        verify(validator, atLeast(2)).validateId(any(Long.class));
+        verify(validator, times(1)).validateNewsRequest(newsDtoRequest);
         verify(newsMapper, times(1)).dtoRequestToModel(newsDtoRequest);
-        verify(newsMapper, times(1)).modelToDtoResponse(newsModel);
         verify(newsRepository, times(1)).update(newsModel);
+        verify(newsMapper, times(1)).modelToDtoResponse(newsModel);
     }
 
     @Test
     void delete() {
+        given(newsRepository.existById(newsDtoRequest.getId())).willReturn(true);
         Long id = newsDtoRequest.getId();
         newsService.deleteById(id);
 

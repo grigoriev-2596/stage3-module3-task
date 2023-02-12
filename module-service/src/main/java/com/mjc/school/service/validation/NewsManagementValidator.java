@@ -38,6 +38,7 @@ public class NewsManagementValidator {
         validateStringLength(request.getTitle(), "news title", NEWS_TITLE_MIN_LENGTH, NEWS_TITLE_MAX_LENGTH);
         validateStringLength(request.getContent(), "news content", NEWS_CONTENT_MIN_LENGTH, NEWS_CONTENT_MAX_LENGTH);
         validateId(request.getAuthorId());
+        request.getTagIds().forEach(this::validateId);
     }
 
     public void validateAuthorRequestWithoutId(AuthorDtoRequest request) {

@@ -22,13 +22,13 @@ public class NewsMenu extends Menu {
         String title, content;
         long authorId;
         List<Long> tagIds;
-        System.out.print("Enter news title:\n>>");
+        System.out.print(Constant.ENTER_NEWS_TITLE);
         title = scanner.nextLine();
-        System.out.print("Enter news content:\n>>");
+        System.out.print(Constant.ENTER_NEWS_CONTENT);
         content = scanner.nextLine();
-        System.out.print("Enter author id:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_ID);
         authorId = readId();
-        System.out.println("Enter tag ids (example: 1 3 7; can be empty):");
+        System.out.println(Constant.ENTER_TAG_IDS);
         tagIds = readTagIds();
 
         Object result = commandFactory
@@ -48,7 +48,7 @@ public class NewsMenu extends Menu {
 
     @Override
     public void getById() {
-        System.out.print("Enter news id:\n>>");
+        System.out.print(Constant.ENTER_NEWS_ID);
         long newsId = readId();
 
         Object result = commandFactory
@@ -62,15 +62,15 @@ public class NewsMenu extends Menu {
         String title, content;
         long authorId, newsId;
         List<Long> tagIds;
-        System.out.print("Enter news id:\n>>");
+        System.out.print(Constant.ENTER_NEWS_ID);
         newsId = readId();
-        System.out.print("Enter news title:\n>>");
+        System.out.print(Constant.ENTER_NEWS_TITLE);
         title = scanner.nextLine();
-        System.out.print("Enter news content:\n>>");
+        System.out.print(Constant.ENTER_NEWS_CONTENT);
         content = scanner.nextLine();
-        System.out.print("Enter author id:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_ID);
         authorId = readId();
-        System.out.println("Enter tag ids (example: 1 3 7; can be empty):");
+        System.out.println(Constant.ENTER_TAG_IDS);
         tagIds = readTagIds();
 
         Object result = commandFactory
@@ -81,7 +81,7 @@ public class NewsMenu extends Menu {
 
     @Override
     public void delete() {
-        System.out.print("Enter news id:\n>>");
+        System.out.print(Constant.ENTER_NEWS_ID);
         long newsId = readId();
 
         Object result = commandFactory
@@ -95,15 +95,15 @@ public class NewsMenu extends Menu {
         String title, content, authorName;
         List<String> tagNames;
         List<Long> tagIds;
-        System.out.print("Enter tag ids (example: 1 3 7):\n>>");
+        System.out.print(Constant.ENTER_TAG_IDS);
         tagIds = readTagIds();
-        System.out.print("Enter tag names (example: weather politics films)\n>>");
+        System.out.print(Constant.ENTER_TAG_NAMES);
         tagNames = readStrings();
-        System.out.print("Enter news title:\n>>");
+        System.out.print(Constant.ENTER_NEWS_TITLE);
         title = scanner.nextLine();
-        System.out.print("Enter author name:\n>>");
+        System.out.print(Constant.ENTER_AUTHOR_NAME);
         authorName = scanner.nextLine();
-        System.out.print("Enter news content:\n>>");
+        System.out.print(Constant.ENTER_NEWS_CONTENT);
         content = scanner.nextLine();
 
         Object result = commandFactory

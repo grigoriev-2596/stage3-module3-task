@@ -1,5 +1,9 @@
 package com.mjc.school.repository.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,6 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "authors")
+@EntityListeners(AuditingEntityListener.class)
 public class AuthorModel implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
@@ -16,8 +21,10 @@ public class AuthorModel implements BaseEntity<Long> {
     @Column
     private String name;
     @Column(name = "creation_date")
+    @CreatedDate
     private LocalDateTime creationDate;
     @Column(name = "last_update_date")
+    @LastModifiedDate
     private LocalDateTime lastUpdateDate;
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "author", fetch = FetchType.LAZY)
     private List<NewsModel> news = new ArrayList<>();
@@ -30,18 +37,6 @@ public class AuthorModel implements BaseEntity<Long> {
     }
 
     public AuthorModel() {
-    }
-
-    @PrePersist
-    public void setDates() {
-        LocalDateTime now = LocalDateTime.now();
-        setCreationDate(now);
-        setLastUpdateDate(now);
-    }
-
-    @PreUpdate
-    public void setLastUpdateDate() {
-        setLastUpdateDate(LocalDateTime.now());
     }
 
     @Override
