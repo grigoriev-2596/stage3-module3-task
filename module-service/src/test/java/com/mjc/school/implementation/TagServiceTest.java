@@ -27,10 +27,13 @@ import static org.mockito.Mockito.verify;
 class TagServiceTest {
     @Mock
     TagRepository tagRepository;
+
     @Mock
     NewsRepository newsRepository;
+
     @Mock
     TagMapper tagMapper;
+
     @Mock
     NewsManagementValidator validator;
 

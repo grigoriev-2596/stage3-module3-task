@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsDtoResponse {
+
     private final Long id;
     private final String title;
     private final String content;

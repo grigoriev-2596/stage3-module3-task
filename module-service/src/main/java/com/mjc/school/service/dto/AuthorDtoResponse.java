@@ -3,6 +3,7 @@ package com.mjc.school.service.dto;
 import java.time.LocalDateTime;
 
 public class AuthorDtoResponse {
+
     private final Long id;
     private final String name;
     private final LocalDateTime creationDate;

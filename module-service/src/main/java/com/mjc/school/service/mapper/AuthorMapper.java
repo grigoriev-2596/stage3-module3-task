@@ -9,6 +9,7 @@ import java.util.List;
 
 @org.mapstruct.Mapper(componentModel = "spring")
 public abstract class AuthorMapper {
+
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "lastUpdateDate", ignore = true)
     @Mapping(target = "news", ignore = true)

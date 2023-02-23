@@ -10,6 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class TagMapper {
+
     @Mapping(target = "news", ignore = true)
     public abstract TagModel dtoRequestToModel(TagDtoRequest dto);
 

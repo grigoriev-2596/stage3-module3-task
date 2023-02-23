@@ -1,6 +1,7 @@
 package com.mjc.school.service.dto;
 
 public class AuthorDtoRequest {
+
     private final Long id;
     private final String name;
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NewsDtoRequest {
+
     private final Long id;
     private final String title;
     private final String content;

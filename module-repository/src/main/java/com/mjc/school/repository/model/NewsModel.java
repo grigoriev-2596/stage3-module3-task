@@ -15,23 +15,30 @@ import java.util.Objects;
 @Table(name = "news")
 @EntityListeners(AuditingEntityListener.class)
 public class NewsModel implements BaseEntity<Long> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_generator")
     @SequenceGenerator(name = "news_generator", sequenceName = "news_seq", allocationSize = 1)
     private Long id;
+
     @Column
     private String title;
+
     @Column
     private String content;
+
     @Column(name = "creation_date", updatable = false)
     @CreatedDate
     private LocalDateTime creationDate;
+
     @Column(name = "last_update_date")
     @LastModifiedDate
     private LocalDateTime lastUpdateDate;
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     private AuthorModel author;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="news_tags",

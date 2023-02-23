@@ -14,18 +14,23 @@ import java.util.Objects;
 @Table(name = "authors")
 @EntityListeners(AuditingEntityListener.class)
 public class AuthorModel implements BaseEntity<Long> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
     @SequenceGenerator(name = "author_generator", sequenceName = "author_seq", allocationSize = 1)
     private Long id;
+
     @Column
     private String name;
+
     @Column(name = "creation_date")
     @CreatedDate
     private LocalDateTime creationDate;
+
     @Column(name = "last_update_date")
     @LastModifiedDate
     private LocalDateTime lastUpdateDate;
+
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "author", fetch = FetchType.LAZY)
     private List<NewsModel> news = new ArrayList<>();
 

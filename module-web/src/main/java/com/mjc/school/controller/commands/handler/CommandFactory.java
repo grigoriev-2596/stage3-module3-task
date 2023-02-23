@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 public class CommandFactory {
+
     private final NewsController newsController;
     private final AuthorController authorController;
     private final TagController tagController;
@@ -26,7 +27,6 @@ public class CommandFactory {
         this.tagController = tagController;
     }
 
-    //news commands
     public Command getCreateNewsCommand(String title, String content, Long authorId, List<Long> tagIds) {
         return new CreateCommand<>(newsController, new NewsDtoRequest(null, title, content, authorId, tagIds));
     }
@@ -52,7 +52,7 @@ public class CommandFactory {
         return new GetNewsByCriteriaCommand(newsController, tagNames, tagIds, authorName, title, content);
     }
 
-    //author commands
+
     public Command getCreateAuthorCommand(String name) {
         return new CreateCommand<>(authorController, new AuthorDtoRequest(null, name));
     }
@@ -77,7 +77,7 @@ public class CommandFactory {
         return new GetAuthorByNewsIdCommand(authorController, id);
     }
 
-    //tag commands
+
     public Command getCreateTagCommand(String name) {
         return new CreateCommand<>(tagController, new TagDtoRequest(null, name));
     }

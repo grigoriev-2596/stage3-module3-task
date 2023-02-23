@@ -3,6 +3,7 @@ package com.mjc.school.menu;
 import java.util.Scanner;
 
 public abstract class Menu {
+
     protected Scanner scanner;
 
     public void setScanner(Scanner scanner) {

@@ -18,8 +18,10 @@ import java.util.Optional;
 
 @Service
 public class TagServiceImpl implements TagService {
+
     private final BaseRepository<TagModel, Long> tagRepository;
     private final BaseRepository<NewsModel, Long> newsRepository;
+
     private final NewsManagementValidator validator;
     private final TagMapper tagMapper;
 

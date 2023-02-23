@@ -2,7 +2,6 @@ package com.mjc.school.repository.implementation;
 
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.NewsModel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public class AuthorRepository implements BaseRepository<AuthorModel, Long> {
+
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
 

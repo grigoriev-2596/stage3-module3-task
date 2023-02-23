@@ -21,9 +21,11 @@ import java.util.function.Predicate;
 
 @Service
 public class NewsServiceImpl implements NewsService {
+
     private final BaseRepository<NewsModel, Long> newsRepository;
     private final BaseRepository<AuthorModel, Long> authorRepository;
     private final BaseRepository<TagModel, Long> tagRepository;
+
     private final NewsManagementValidator validator;
     private final NewsMapper newsMapper;
 

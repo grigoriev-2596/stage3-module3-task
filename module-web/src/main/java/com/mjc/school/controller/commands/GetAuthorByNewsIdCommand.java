@@ -4,6 +4,7 @@ import com.mjc.school.controller.Command;
 import com.mjc.school.controller.implementation.AuthorController;
 
 public class GetAuthorByNewsIdCommand implements Command {
+
     private final AuthorController authorController;
     private final Long id;
 

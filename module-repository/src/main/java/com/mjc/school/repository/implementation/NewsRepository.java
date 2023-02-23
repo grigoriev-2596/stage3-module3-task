@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public class NewsRepository implements BaseRepository<NewsModel, Long> {
+
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
 

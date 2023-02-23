@@ -9,12 +9,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "tags")
 public class TagModel implements BaseEntity<Long> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_generator")
     @SequenceGenerator(name = "tag_generator", sequenceName = "tag_seq", allocationSize = 1)
     private Long id;
+
     @Column
     private String name;
+
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     List<NewsModel> news = new ArrayList<>();
 

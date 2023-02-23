@@ -28,12 +28,16 @@ import static org.mockito.Mockito.*;
 class NewsServiceTest {
     @Mock
     private NewsRepository newsRepository;
+
     @Mock
     private AuthorRepository authorRepository;
+
     @Mock
     private TagRepository tagRepository;
+
     @Mock
     private NewsMapper newsMapper;
+
     @Mock
     private NewsManagementValidator validator;
 

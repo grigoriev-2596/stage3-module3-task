@@ -24,12 +24,16 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class AuthorServiceTest {
+
     @Mock
     AuthorRepository authorRepository;
+
     @Mock
     NewsRepository newsRepository;
+
     @Mock
     AuthorMapper authorMapper;
+
     @Mock
     NewsManagementValidator validator;
 
@@ -37,7 +41,6 @@ class AuthorServiceTest {
 
     private AuthorDtoRequest authorDtoRequest;
     private AuthorModel authorModel;
-
     private NewsModel newsModel;
 
     @BeforeEach

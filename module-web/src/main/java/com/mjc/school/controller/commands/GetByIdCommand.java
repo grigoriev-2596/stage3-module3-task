@@ -4,6 +4,7 @@ import com.mjc.school.controller.BaseController;
 import com.mjc.school.controller.Command;
 
 public class GetByIdCommand<T, R, K> implements Command {
+
     private final BaseController<T, R, K> controller;
     private final K id;
 

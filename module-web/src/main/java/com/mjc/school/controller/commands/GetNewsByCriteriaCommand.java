@@ -6,6 +6,7 @@ import com.mjc.school.controller.implementation.NewsController;
 import java.util.List;
 
 public class GetNewsByCriteriaCommand implements Command {
+
     private final NewsController newsController;
     private final List<String> tagNames;
     private final List<Long> tagIds;

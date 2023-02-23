@@ -4,6 +4,7 @@ import com.mjc.school.controller.Command;
 import com.mjc.school.controller.implementation.TagController;
 
 public class GetTagsByNewsIdCommand implements Command {
+
     private final TagController tagController;
     private final Long id;
 

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum CommandConstants {
+
     EXIT(0, "Exit"),
     CREATE_NEWS(1, "Create news"),
     GET_ALL_NEWS(2, "Get all news"),
@@ -26,7 +27,6 @@ public enum CommandConstants {
 
     private final int id;
     private final String name;
-
 
     CommandConstants(int id, String name) {
         this.id = id;

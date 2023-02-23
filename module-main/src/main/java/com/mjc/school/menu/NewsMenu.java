@@ -10,6 +10,7 @@ import java.util.List;
 
 @Component
 public class NewsMenu extends Menu {
+
     private final CommandFactory commandFactory;
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.mjc.school.service.dto;
 
 public class TagDtoRequest {
+
     private final Long id;
     private final String name;
 

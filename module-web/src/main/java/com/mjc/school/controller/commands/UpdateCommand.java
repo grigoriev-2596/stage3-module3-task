@@ -4,6 +4,7 @@ import com.mjc.school.controller.BaseController;
 import com.mjc.school.controller.Command;
 
 public class UpdateCommand<T, R, K> implements Command {
+
     private final BaseController<T, R, K> controller;
     private final T request;
 

@@ -4,11 +4,9 @@ import com.mjc.school.controller.commands.handler.CommandFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
-
 @Component
 public class TagMenu extends Menu {
+
     private final CommandFactory commandFactory;
 
     @Autowired

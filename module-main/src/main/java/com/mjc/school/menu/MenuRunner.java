@@ -10,6 +10,7 @@ import static java.lang.System.exit;
 
 @Component
 public class MenuRunner {
+
     private final TagMenu tagMenu;
     private final NewsMenu newsMenu;
     private final AuthorMenu authorMenu;

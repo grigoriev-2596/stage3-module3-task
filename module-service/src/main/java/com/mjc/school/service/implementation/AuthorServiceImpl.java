@@ -18,8 +18,10 @@ import java.util.Optional;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
+
     private final BaseRepository<AuthorModel, Long> authorRepository;
     private final BaseRepository<NewsModel, Long> newsRepository;
+
     private final NewsManagementValidator validator;
     private final AuthorMapper authorMapper;
 
