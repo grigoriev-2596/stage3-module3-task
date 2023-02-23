@@ -38,6 +38,9 @@ public class MenuRunner {
     }
 
     public void runMenu() {
+        if (scanner == null) {
+            throw new NullPointerException("Scanner must be initialized");
+        }
         while (true) {
             try {
                 printMenu();

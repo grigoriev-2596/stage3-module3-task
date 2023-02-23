@@ -1,4 +1,4 @@
-rootProject.name = 'stage3-module2-task'
+rootProject.name = 'stage3-module3-task'
 
 include 'module-repository'
 include 'module-service'
